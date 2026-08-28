@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Автоматический генератор расписания занятий для школ. Бесплатно, онлайн, три языка."/>
+<title>JadvalSoft — Генератор расписания</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--accent:#3b82f6;--dark:#0f172a;--text:#1e293b;--muted:#64748b;--bg:#f8fafc;--card:#fff;--border:#e2e8f0;--radius:14px;--success:#10b981}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:24px;height:60px}
+.nav-logo{font-weight:800;font-size:1.15rem;color:var(--dark);text-decoration:none;display:flex;align-items:center;gap:8px}
+.nav-logo span{background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.nav-links a{padding:6px 13px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:500;color:var(--muted);transition:all .15s}
+.nav-links a:hover{color:var(--accent);background:#eff6ff}
+.nav-links a.cta{background:var(--accent);color:#fff;font-weight:600}
+.nav-links a.cta:hover{background:#2563eb}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 50%,#312e81 100%);color:#fff;padding:90px 24px 80px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-inner{max-width:760px;margin:0 auto;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 14px;font-size:.8rem;font-weight:600;margin-bottom:24px;letter-spacing:.03em}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.15;margin-bottom:20px;letter-spacing:-.02em}
+.hero h1 span{background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.1rem;opacity:.8;max-width:560px;margin:0 auto 36px;line-height:1.7}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-hero{padding:13px 28px;border-radius:10px;font-size:.95rem;font-weight:700;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-hero-primary{background:#fff;color:#1e3a8a}
+.btn-hero-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.btn-hero-secondary{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25)}
+.btn-hero-secondary:hover{background:rgba(255,255,255,.2)}
+
+/* STATS */
+.stats{background:#fff;border-bottom:1px solid var(--border);padding:32px 24px}
+.stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px}
+.stat{text-align:center}
+.stat .num{font-size:2rem;font-weight:800;color:var(--accent);line-height:1}
+.stat .lbl{font-size:.82rem;color:var(--muted);margin-top:4px}
+
+/* FEATURES */
+.section{padding:72px 24px}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-tag{display:inline-block;background:#eff6ff;color:var(--accent);font-size:.75rem;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
+.section h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;margin-bottom:12px;letter-spacing:-.02em}
+.section .sub{font-size:1rem;color:var(--muted);max-width:500px;margin-bottom:48px;line-height:1.7}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.feat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:all .2s}
+.feat-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.08)}
+.feat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:14px}
+.feat-card h3{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.feat-card p{font-size:.85rem;color:var(--muted);line-height:1.6}
+
+/* HOW IT WORKS */
+.how{background:linear-gradient(135deg,#f8fafc,#eff6ff)}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.step-card{text-align:center;padding:28px 20px}
+.step-num{width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;font-size:1.1rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.step-card h3{font-size:.9rem;font-weight:700;margin-bottom:6px}
+.step-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+
+/* LANGUAGES */
+.lang-badges{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.lang-badge{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:12px 20px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:.9rem}
+.lang-badge .flag{font-size:1.4rem}
+
+/* CTA SECTION */
+.cta-section{background:linear-gradient(135deg,#1e3a8a,#312e81);color:#fff;padding:80px 24px;text-align:center}
+.cta-section h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;margin-bottom:14px}
+.cta-section p{opacity:.8;margin-bottom:32px;font-size:1rem}
+
+/* FOOTER */
+footer{background:var(--dark);color:#94a3b8;padding:48px 24px 28px}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand p{font-size:.85rem;margin-top:10px;line-height:1.7;max-width:260px}
+.footer-col h4{color:#fff;font-size:.85rem;font-weight:700;margin-bottom:14px;letter-spacing:.04em;text-transform:uppercase}
+.footer-col a{display:block;color:#94a3b8;text-decoration:none;font-size:.85rem;margin-bottom:8px;transition:color .15s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{border-top:1px solid #1e293b;padding-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.8rem}
+.social-links{display:flex;gap:10px}
+.social-btn{width:36px;height:36px;border-radius:8px;background:#1e293b;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:1rem;transition:all .15s}
+.social-btn:hover{background:#3b82f6}
+.logo-footer{font-weight:800;font-size:1.1rem;color:#fff;display:flex;align-items:center;gap:8px}
+
+@media(max-width:768px){
+  .footer-top{grid-template-columns:1fr 1fr}
+  .nav-links .hide-mobile{display:none}
+}
+@media(max-width:480px){
+  .footer-top{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">🏫 <span>JadvalSoft</span></a>
+    <div class="nav-links">
+      <a href="index.html">Главная</a>
+      <a href="faq.html" class="hide-mobile">FAQ</a>
+      <a href="contact.html" class="hide-mobile">Контакты</a>
+      <a href="privacy.html" class="hide-mobile">Privacy</a>
+      <a href="app.html" class="cta">🚀 Открыть приложение</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">✨ Бесплатно · Онлайн · Без регистрации</div>
+    <h1>Расписание для школы<br/><span>за 5 минут</span></h1>
+    <p>Автоматически распределяет уроки с учётом нагрузки учителей, ограничений по дням и типов предметов. Поддерживает таджикский, русский и английский языки.</p>
+    <div class="hero-btns">
+      <a href="app.html" class="btn-hero btn-hero-primary">🚀 Начать бесплатно</a>
+      <a href="faq.html" class="btn-hero btn-hero-secondary">Как это работает?</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat"><div class="num">3</div><div class="lbl">Языка интерфейса</div></div>
+    <div class="stat"><div class="num">5</div><div class="lbl">Шагов настройки</div></div>
+    <div class="stat"><div class="num">30+</div><div class="lbl">Классов одновременно</div></div>
+    <div class="stat"><div class="num">0</div><div class="lbl">Рублей · Сомони · $</div></div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section">
+  <div class="section-inner">
+    <span class="section-tag">Возможности</span>
+    <h2>Всё что нужно для расписания</h2>
+    <p class="sub">Умный алгоритм учитывает десятки ограничений и строит расписание автоматически.</p>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#dbeafe">⚡</div>
+        <h3>Автогенерация</h3>
+        <p>Жадный алгоритм расставляет уроки равномерно по дням, избегает конфликтов учителей и соблюдает максимум 7 уроков в день.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#d1fae5">👩‍🏫</div>
+        <h3>Учёт учителей</h3>
+        <p>Каждый учитель отмечает рабочие дни. Система не ставит уроки в нерабочие дни и предупреждает если учитель занят в двух местах.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#fef3c7">🌐</div>
+        <h3>3 языка</h3>
+        <p>Интерфейс и названия предметов переключаются между таджикским, русским и английским одной кнопкой.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#ede9fe">⏱️</div>
+        <h3>Гибкое время</h3>
+        <p>Настройте длину урока и перемен для каждого потока. Поддержка нескольких смен с разным временем начала.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#fce7f3">📊</div>
+        <h3>Экспорт Excel / PDF</h3>
+        <p>Скачайте готовое расписание в Excel (отдельные листы для учеников и учителей) или распечатайте через PDF.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#fee2e2">🔄</div>
+        <h3>Ручная корректировка</h3>
+        <p>После генерации перетаскивайте уроки между слотами и днями. Система мгновенно обнаруживает конфликты.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how">
+  <div class="section-inner">
+    <span class="section-tag">Как работает</span>
+    <h2>Расписание за 5 шагов</h2>
+    <p class="sub">Никакой регистрации. Данные хранятся в браузере и никуда не отправляются.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Создайте классы</h3>
+        <p>Задайте диапазон классов и параллели (5А, 5Б, 6А...). Буквы добавляются автоматически.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Добавьте предметы</h3>
+        <p>Нажмите «Основные предметы» — список заполнится по программе вашего класса автоматически.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Назначьте учителей</h3>
+        <p>Синхронизируйте список учителей из предметов и отметьте их рабочие дни.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Настройте время</h3>
+        <p>Укажите длину урока, перемен и время начала для каждой смены.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">5</div>
+        <h3>Генерация!</h3>
+        <p>Нажмите одну кнопку — получите расписание для всех классов и учителей.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section class="section" style="padding-top:48px;padding-bottom:72px">
+  <div class="section-inner">
+    <span class="section-tag">Языки</span>
+    <h2>Работает на трёх языках</h2>
+    <p class="sub">Переключите язык в шапке — интерфейс и названия предметов изменятся мгновенно.</p>
+    <div class="lang-badges">
+      <div class="lang-badge"><span class="flag">🇹🇯</span> Тоҷикӣ</div>
+      <div class="lang-badge"><span class="flag">🇷🇺</span> Русский</div>
+      <div class="lang-badge"><span class="flag">🇬🇧</span> English</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Готовы попробовать?</h2>
+  <p>Бесплатно. Без регистрации. Данные остаются у вас.</p>
+  <a href="app.html" class="btn-hero btn-hero-primary">🚀 Открыть генератор</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-footer">🏫 JadvalSoft</div>
+        <p>Бесплатный онлайн-генератор расписания для школ. Разработан специально для школ Таджикистана.</p>
+        <div class="social-links" style="margin-top:16px">
+          <a class="social-btn" href="https://instagram.com/YOUR_HANDLE" target="_blank" title="Instagram">📸</a>
+          <a class="social-btn" href="https://t.me/YOUR_HANDLE" target="_blank" title="Telegram">✈️</a>
+          <a class="social-btn" href="https://wa.me/YOUR_NUMBER" target="_blank" title="WhatsApp">💬</a>
+          <a class="social-btn" href="mailto:your@email.com" title="Email">📧</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Приложение</h4>
+        <a href="app.html">Открыть генератор</a>
+        <a href="faq.html">Как пользоваться</a>
+        <a href="faq.html#algo">Алгоритм</a>
+      </div>
+      <div class="footer-col">
+        <h4>Информация</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Контакты</a>
+      </div>
+      <div class="footer-col">
+        <h4>Связь</h4>
+        <a href="https://instagram.com/hadiyatullo.ibrohimov" target="_blank">Instagram</a>
+        <a href="https://t.me/@hadiyatullo_Ibrohimov" target="_blank">Telegram</a>
+        <a href="https://wa.me/+79627045480" target="_blank">WhatsApp</a>
+        <a href="mailto:ibrohimovhadiyatullo@gmail.com">Email</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>2026 JadvalSoft</span>
+      <span>Сделано с ❤️ для школ Таджикистана</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

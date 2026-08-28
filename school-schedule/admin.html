@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin — ЖадвалSoft</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--accent:#3b82f6;--dark:#0f172a;--text:#1e293b;--muted:#64748b;--bg:#0f172a;--card:#1e293b;--border:#334155;--radius:12px;--success:#10b981;--warning:#f59e0b;--danger:#ef4444}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#e2e8f0;min-height:100vh}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;width:100%;max-width:380px;text-align:center}
+.login-box .logo{font-size:2.5rem;margin-bottom:8px}
+.login-box h1{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:4px}
+.login-box p{font-size:.85rem;color:#94a3b8;margin-bottom:28px}
+.input{width:100%;padding:10px 14px;background:#0f172a;border:1.5px solid var(--border);border-radius:9px;color:#e2e8f0;font-size:.9rem;outline:none;margin-bottom:12px;font-family:inherit}
+.input:focus{border-color:var(--accent)}
+.btn-login{width:100%;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .15s}
+.btn-login:hover{background:#2563eb}
+.err{color:#f87171;font-size:.82rem;margin-top:8px;display:none}
+
+/* DASHBOARD */
+.dashboard{display:none}
+header{background:#1e293b;border-bottom:1px solid var(--border);padding:0 24px}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;height:58px;gap:16px}
+.logo-text{font-weight:800;font-size:1rem;color:#fff;display:flex;align-items:center;gap:8px}
+.admin-badge{background:#7c3aed;color:#fff;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.header-actions{margin-left:auto;display:flex;gap:8px}
+.btn-sm{padding:6px 14px;border-radius:7px;font-size:.8rem;font-weight:600;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.btn-outline{background:transparent;color:#94a3b8;border:1px solid var(--border)}
+.btn-outline:hover{border-color:#60a5fa;color:#60a5fa}
+.btn-danger-sm{background:#7f1d1d;color:#fca5a5}
+.btn-danger-sm:hover{background:#991b1b}
+
+main{max-width:1200px;margin:0 auto;padding:28px 24px}
+.page-title{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:6px}
+.page-sub{font-size:.85rem;color:#94a3b8;margin-bottom:28px}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px}
+.stat-card .label{font-size:.75rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.stat-card .value{font-size:2rem;font-weight:800;color:#fff;line-height:1}
+.stat-card .sub{font-size:.75rem;color:#64748b;margin-top:4px}
+.stat-card .trend{font-size:.75rem;font-weight:600;margin-top:6px}
+.trend-up{color:#34d399}.trend-down{color:#f87171}.trend-neutral{color:#94a3b8}
+
+/* CHARTS AREA */
+.charts-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:28px}
+@media(max-width:768px){.charts-grid{grid-template-columns:1fr}}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.chart-card h3{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.chart-card h3 span{font-size:.75rem;color:#64748b;font-weight:400}
+canvas{width:100%!important}
+
+/* ACTIVITY LOG */
+.log-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.log-card h3{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:14px}
+.log-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #1e293b;align-items:flex-start}
+.log-item:last-child{border-bottom:none}
+.log-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.log-dot-blue{background:#3b82f6}.log-dot-green{background:#10b981}.log-dot-yellow{background:#f59e0b}
+.log-text{font-size:.83rem;color:#cbd5e1;flex:1}
+.log-time{font-size:.75rem;color:#64748b;white-space:nowrap}
+
+/* INFO CARD */
+.info-card{background:linear-gradient(135deg,#1e3a8a22,#312e8122);border:1px solid #3b82f633;border-radius:var(--radius);padding:18px;margin-bottom:16px;font-size:.83rem;color:#93c5fd}
+.info-card strong{color:#bfdbfe}
+
+/* Empty state */
+.empty{text-align:center;padding:40px 20px;color:#64748b}
+.empty .icon{font-size:2.5rem;margin-bottom:12px}
+.empty p{font-size:.88rem}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-box">
+    <div class="logo">🔐</div>
+    <h1>Admin Panel</h1>
+    <p>ЖадвалSoft · Панель администратора</p>
+    <input class="input" type="password" id="passInput" placeholder="Введите пароль" onkeydown="if(event.key==='Enter')login()"/>
+    <button class="btn-login" onclick="login()">Войти</button>
+    <div class="err" id="errMsg">Неверный пароль</div>
+    <p style="margin-top:20px;font-size:.75rem;color:#475569">Эта страница видна только вам</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+  <header>
+    <div class="header-inner">
+      <div class="logo-text">🏫 ЖадвалSoft <span class="admin-badge">ADMIN</span></div>
+      <div class="header-actions">
+        <a href="index.html" class="btn-sm btn-outline">← На сайт</a>
+        <button class="btn-sm btn-outline" onclick="refreshData()">🔄 Обновить</button>
+        <button class="btn-sm btn-danger-sm" onclick="logout()">Выйти</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-title">📊 Дашборд</div>
+    <div class="page-sub" id="lastUpdated">Данные из localStorage браузера · Обновлено только что</div>
+
+    <div class="info-card">
+      <strong>ℹ️ Важно:</strong> Так как сайт статический (GitHub Pages), admin-панель показывает данные только из <strong>вашего текущего браузера</strong>. Данные других пользователей не видны — у них свои localStorage. Для глобальной статистики нужен backend (Firebase, Supabase и т.д.).
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Генераций в браузере</div>
+        <div class="value" id="statGen">0</div>
+        <div class="sub">с начала использования</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Классов настроено</div>
+        <div class="value" id="statClasses">0</div>
+        <div class="sub">в текущей конфигурации</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Учителей</div>
+        <div class="value" id="statTeachers">0</div>
+        <div class="sub">в текущей конфигурации</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Предметов всего</div>
+        <div class="value" id="statSubjects">0</div>
+        <div class="sub">по всем классам</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Данные сохранены</div>
+        <div class="value" id="statSaved" style="font-size:1.1rem;padding-top:8px">—</div>
+        <div class="sub">последнее изменение</div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>Предметы по типам <span id="chartSubLabel"></span></h3>
+        <canvas id="chartTypes" height="180"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Часов по дням недели <span>(расчётно)</span></h3>
+        <canvas id="chartDays" height="180"></canvas>
+      </div>
+    </div>
+
+    <!-- CLASSES TABLE -->
+    <div class="log-card">
+      <h3>📋 Конфигурация классов</h3>
+      <div id="classesTable"><div class="empty"><div class="icon">📭</div><p>Нет данных. <a href="app.html" style="color:#60a5fa">Откройте приложение</a> и создайте расписание.</p></div></div>
+    </div>
+
+    <!-- TEACHERS TABLE -->
+    <div class="log-card">
+      <h3>👩‍🏫 Учителя и нагрузка</h3>
+      <div id="teachersTable"><div class="empty"><div class="icon">📭</div><p>Нет данных.</p></div></div>
+    </div>
+
+    <!-- RAW -->
+    <div class="log-card">
+      <h3>🗂️ Последнее действие</h3>
+      <div id="activityLog">
+        <div class="log-item">
+          <div class="log-dot log-dot-blue"></div>
+          <div class="log-text">Страница администратора открыта</div>
+          <div class="log-time" id="nowTime"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// Пароль — смените на свой!
+const ADMIN_PASS = 'admin2025';
+
+function login(){
+  const p = document.getElementById('passInput').value;
+  if(p === ADMIN_PASS){
+    sessionStorage.setItem('admin_ok','1');
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    loadData();
+  } else {
+    document.getElementById('errMsg').style.display='block';
+    document.getElementById('passInput').value='';
+  }
+}
+function logout(){
+  sessionStorage.removeItem('admin_ok');
+  location.reload();
+}
+function refreshData(){ loadData(); }
+
+// Auto-login if already authenticated this session
+if(sessionStorage.getItem('admin_ok')==='1'){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+  setTimeout(loadData, 100);
+}
+
+document.getElementById('nowTime').textContent = new Date().toLocaleTimeString('ru');
+
+function loadData(){
+  const raw = localStorage.getItem('sched_v4');
+  if(!raw){
+    document.getElementById('lastUpdated').textContent='Данные не найдены в localStorage';
+    return;
+  }
+  let data;
+  try{ data = JSON.parse(raw); } catch(e){ return; }
+
+  document.getElementById('lastUpdated').textContent =
+    'Обновлено: ' + new Date().toLocaleString('ru');
+
+  // Stats
+  const genCount = data.genCount || 0;
+  const classes = data.classes || [];
+  const teachers = data.teachers || [];
+  let totalParallels = 0, totalSubjects = 0;
+  const typeCounts = {};
+  const teacherLoad = {};
+
+  classes.forEach(cls => {
+    (cls.parallels||[]).forEach(par => {
+      totalParallels++;
+      (par.subjects||[]).forEach(s => {
+        totalSubjects++;
+        const type = s.type || 'Другое';
+        typeCounts[type] = (typeCounts[type]||0) + (parseInt(s.hours)||0);
+        if(s.teacher){
+          teacherLoad[s.teacher] = (teacherLoad[s.teacher]||0) + (parseInt(s.hours)||0);
+        }
+      });
+    });
+  });
+
+  document.getElementById('statGen').textContent = genCount;
+  document.getElementById('statClasses').textContent = totalParallels;
+  document.getElementById('statTeachers').textContent = teachers.length;
+  document.getElementById('statSubjects').textContent = totalSubjects;
+  document.getElementById('statSaved').textContent = new Date().toLocaleDateString('ru');
+
+  // Chart: subject types
+  drawBarChart('chartTypes', Object.keys(typeCounts), Object.values(typeCounts),
+    ['#3b82f6','#ec4899','#f59e0b','#10b981','#8b5cf6','#64748b'],
+    document.getElementById('chartSubLabel'));
+
+  // Chart: estimated lessons per day (total hours / 6 days approx)
+  const days = ['Пн','Вт','Ср','Чт','Пт','Сб'];
+  const hoursPerDay = days.map((_,i) => {
+    // Simple distribution simulation
+    return Math.round(totalSubjects / 6 + (i%2===0?0.5:-0.5));
+  });
+  drawBarChart('chartDays', days, hoursPerDay, '#3b82f6');
+
+  // Classes table
+  let classHtml = '<table style="width:100%;border-collapse:collapse;font-size:.82rem">';
+  classHtml += '<tr style="color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em"><th style="padding:8px;text-align:left;border-bottom:1px solid #1e293b">Класс</th><th style="padding:8px;text-align:left;border-bottom:1px solid #1e293b">Предметов</th><th style="padding:8px;text-align:left;border-bottom:1px solid #1e293b">Часов/нед</th><th style="padding:8px;text-align:left;border-bottom:1px solid #1e293b">Учителей</th></tr>';
+  classes.forEach(cls => {
+    (cls.parallels||[]).forEach(par => {
+      const key = `${cls.grade}${par.letter}`;
+      const subjs = par.subjects||[];
+      const hrs = subjs.reduce((s,x)=>s+(parseInt(x.hours)||0),0);
+      const tnames = [...new Set(subjs.map(s=>s.teacher).filter(Boolean))];
+      classHtml += `<tr style="border-bottom:1px solid #1e293b22">
+        <td style="padding:8px;font-weight:700;color:#fff">${key}</td>
+        <td style="padding:8px;color:#94a3b8">${subjs.length}</td>
+        <td style="padding:8px;color:#60a5fa">${hrs}</td>
+        <td style="padding:8px;color:#94a3b8">${tnames.length}</td>
+      </tr>`;
+    });
+  });
+  classHtml += '</table>';
+  document.getElementById('classesTable').innerHTML = totalParallels > 0 ? classHtml : '<div class="empty"><div class="icon">📭</div><p>Нет классов.</p></div>';
+
+  // Teachers table
+  if(Object.keys(teacherLoad).length > 0){
+    let tHtml = '<table style="width:100%;border-collapse:collapse;font-size:.82rem">';
+    tHtml += '<tr style="color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em"><th style="padding:8px;text-align:left;border-bottom:1px solid #1e293b">Учитель</th><th style="padding:8px;text-align:left;border-bottom:1px solid #1e293b">Часов/нед</th><th style="padding:8px;text-align:left;border-bottom:1px solid #1e293b">Рабочие дни</th><th style="padding:8px;text-align:left;border-bottom:1px solid #1e293b">Нагрузка</th></tr>';
+    const dayNames = ['Пн','Вт','Ср','Чт','Пт','Сб'];
+    Object.entries(teacherLoad).sort((a,b)=>b[1]-a[1]).forEach(([name,hrs])=>{
+      const tobj = teachers.find(t=>t.name===name);
+      const days = tobj ? tobj.days.map(d=>dayNames[d]).join(', ') : '—';
+      const pct = Math.min(100,Math.round(hrs/36*100));
+      tHtml += `<tr style="border-bottom:1px solid #1e293b22">
+        <td style="padding:8px;color:#fff;font-weight:600">${name}</td>
+        <td style="padding:8px;color:#60a5fa;font-weight:700">${hrs}</td>
+        <td style="padding:8px;color:#94a3b8;font-size:.78rem">${days}</td>
+        <td style="padding:8px;min-width:120px">
+          <div style="background:#0f172a;border-radius:4px;height:6px;overflow:hidden">
+            <div style="height:100%;width:${pct}%;background:${hrs>30?'#ef4444':hrs>20?'#f59e0b':'#10b981'};border-radius:4px"></div>
+          </div>
+          <span style="font-size:.72rem;color:#64748b">${pct}%</span>
+        </td>
+      </tr>`;
+    });
+    tHtml += '</table>';
+    document.getElementById('teachersTable').innerHTML = tHtml;
+  }
+
+  // Activity log entry
+  const logContainer = document.getElementById('activityLog');
+  const entry = document.createElement('div');
+  entry.className = 'log-item';
+  entry.innerHTML = `
+    <div class="log-dot log-dot-green"></div>
+    <div class="log-text">Данные загружены: ${totalParallels} классов, ${teachers.length} учителей, ${genCount} генераций</div>
+    <div class="log-time">${new Date().toLocaleTimeString('ru')}</div>`;
+  logContainer.appendChild(entry);
+}
+
+function drawBarChart(canvasId, labels, data, colors, labelEl){
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 400;
+  const H = 180;
+  canvas.width = W; canvas.height = H;
+  ctx.clearRect(0,0,W,H);
+
+  const max = Math.max(...data, 1);
+  const n = labels.length;
+  const padL=32, padR=12, padT=16, padB=36;
+  const barW = Math.floor((W-padL-padR)/n*0.6);
+  const gap = Math.floor((W-padL-padR)/n);
+
+  // Grid lines
+  ctx.strokeStyle='#1e293b'; ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const y = padT + (H-padT-padB)*(1-i/4);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
+    ctx.fillStyle='#475569'; ctx.font='10px system-ui';
+    ctx.fillText(Math.round(max*i/4), 2, y+4);
+  }
+
+  // Bars
+  data.forEach((v,i)=>{
+    const x = padL + i*gap + gap/2 - barW/2;
+    const bh = (v/max)*(H-padT-padB);
+    const y = H-padB-bh;
+    ctx.fillStyle = Array.isArray(colors) ? colors[i%colors.length] : colors;
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(x,y,barW,bh,4) : ctx.rect(x,y,barW,bh);
+    ctx.fill();
+
+    // Value label
+    ctx.fillStyle='#94a3b8'; ctx.font='10px system-ui'; ctx.textAlign='center';
+    ctx.fillText(v, x+barW/2, y-4);
+
+    // X label
+    ctx.fillStyle='#64748b'; ctx.font='10px system-ui';
+    const lbl = labels[i].length>6 ? labels[i].slice(0,5)+'…' : labels[i];
+    ctx.fillText(lbl, x+barW/2, H-padB+14);
+  });
+
+  if(labelEl) labelEl.textContent = `(${data.reduce((a,b)=>a+b,0)} часов)`;
+}
+</script>
+</body>
+</html>

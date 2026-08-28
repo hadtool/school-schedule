@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Privacy Policy — ЖадвалSoft</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--accent:#3b82f6;--dark:#0f172a;--text:#1e293b;--muted:#64748b;--bg:#f8fafc;--border:#e2e8f0;--radius:14px}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:24px;height:60px}
+.nav-logo{font-weight:800;font-size:1.15rem;color:var(--dark);text-decoration:none}
+.nav-logo span{background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:4px;margin-left:auto}
+.nav-links a{padding:6px 13px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:500;color:var(--muted);transition:color .15s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a.cta{background:var(--accent);color:#fff;font-weight:600}
+.hero{background:linear-gradient(135deg,#0f172a,#1e3a8a);color:#fff;padding:60px 24px;text-align:center}
+.hero h1{font-size:2rem;font-weight:800;margin-bottom:10px}
+.hero p{opacity:.7;font-size:.9rem}
+.content{max-width:800px;margin:48px auto;padding:0 24px 80px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:20px}
+.card h2{font-size:1.05rem;font-weight:700;margin-bottom:14px;color:var(--dark);display:flex;align-items:center;gap:8px}
+.card p{font-size:.9rem;color:#374151;margin-bottom:10px}
+.card ul{padding-left:18px;font-size:.9rem;color:#374151}
+.card ul li{margin-bottom:6px}
+.highlight{background:#eff6ff;border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;font-size:.9rem;color:#1e40af;margin:16px 0}
+.badge{display:inline-block;background:#d1fae5;color:#065f46;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:12px;margin-bottom:14px}
+footer{background:var(--dark);color:#64748b;text-align:center;padding:24px;font-size:.82rem}
+footer a{color:#94a3b8;text-decoration:none}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">🏫 <span>ЖадвалSoft</span></a>
+    <div class="nav-links">
+      <a href="index.html">Главная</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Контакты</a>
+      <a href="app.html" class="cta">🚀 Приложение</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>🔒 Privacy Policy</h1>
+  <p>Последнее обновление: январь 2025 · ЖадвалSoft</p>
+</div>
+
+<div class="content">
+  <div class="highlight">
+    <strong>Коротко:</strong> Мы не собираем никаких личных данных. Все данные хранятся только в вашем браузере (localStorage) и никуда не отправляются.
+  </div>
+
+  <div class="card">
+    <span class="badge">✅ Главное</span>
+    <h2>📋 Какие данные мы собираем?</h2>
+    <p><strong>Никаких.</strong> ЖадвалSoft — это статический сайт, размещённый на GitHub Pages. У нас нет сервера, нет базы данных, нет backend-а.</p>
+    <p>Все данные которые вы вводите (классы, предметы, учителя, расписание) сохраняются исключительно в <strong>localStorage вашего браузера</strong> на вашем устройстве.</p>
+  </div>
+
+  <div class="card">
+    <h2>🍪 Cookies и трекеры</h2>
+    <p>Мы <strong>не используем</strong>:</p>
+    <ul>
+      <li>Cookies для отслеживания</li>
+      <li>Google Analytics или другие системы аналитики</li>
+      <li>Рекламные трекеры</li>
+      <li>Пиксели социальных сетей</li>
+    </ul>
+    <p style="margin-top:12px">Единственное хранилище — <code>localStorage</code> вашего браузера, которое используется для сохранения введённых данных между сессиями.</p>
+  </div>
+
+  <div class="card">
+    <h2>🌐 GitHub Pages</h2>
+    <p>Сайт размещён на GitHub Pages (github.io). GitHub может собирать базовую техническую информацию (IP-адрес, тип браузера) в своих логах согласно <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" style="color:var(--accent)">Privacy Policy GitHub</a>.</p>
+    <p>Мы не имеем доступа к этим данным и не управляем ими.</p>
+  </div>
+
+  <div class="card">
+    <h2>🗑️ Как удалить данные?</h2>
+    <p>Чтобы удалить все сохранённые данные приложения:</p>
+    <ul>
+      <li>Откройте приложение → нажмите кнопку 🗑️ в шапке</li>
+      <li><strong>Или:</strong> откройте DevTools браузера (F12) → Application → Local Storage → удалите запись <code>sched_v4</code></li>
+      <li><strong>Или:</strong> очистите данные сайта в настройках браузера</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>👶 Дети и персональные данные</h2>
+    <p>Приложение предназначено для администраторов школ (взрослых). Мы рекомендуем не вводить полные персональные данные учеников — используйте только имена классов (5А, 6Б) и имена/инициалы учителей.</p>
+  </div>
+
+  <div class="card">
+    <h2>📬 Контакты</h2>
+    <p>Если у вас есть вопросы по Privacy Policy — свяжитесь с нами:</p>
+    <ul>
+      <li>Email: <a href="mailto:your@email.com" style="color:var(--accent)">your@email.com</a></li>
+      <li>Telegram: <a href="https://t.me/YOUR_HANDLE" target="_blank" style="color:var(--accent)">@YOUR_HANDLE</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🔄 Изменения в политике</h2>
+    <p>Мы можем обновлять этот документ. Дата последнего обновления указана в шапке страницы. Продолжение использования приложения означает согласие с актуальной версией политики.</p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 ЖадвалSoft · <a href="index.html">Главная</a> · <a href="contact.html">Контакты</a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FAQ — ЖадвалSoft</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--accent:#3b82f6;--dark:#0f172a;--text:#1e293b;--muted:#64748b;--bg:#f8fafc;--border:#e2e8f0;--radius:14px}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;height:60px;gap:24px}
+.nav-logo{font-weight:800;font-size:1.15rem;color:var(--dark);text-decoration:none}
+.nav-logo span{background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:4px;margin-left:auto}
+.nav-links a{padding:6px 13px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:500;color:var(--muted)}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a.cta{background:var(--accent);color:#fff;font-weight:600}
+.hero{background:linear-gradient(135deg,#0f172a,#1e3a8a);color:#fff;padding:60px 24px;text-align:center}
+.hero h1{font-size:2rem;font-weight:800;margin-bottom:10px}
+.hero p{opacity:.75;max-width:500px;margin:0 auto}
+.content{max-width:820px;margin:48px auto;padding:0 24px 80px}
+.section-title{font-size:1.1rem;font-weight:800;color:var(--dark);margin:32px 0 16px;display:flex;align-items:center;gap:8px}
+.faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.faq-q{padding:18px 20px;font-weight:600;font-size:.92rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q:hover{background:#f8fafc}
+.faq-q .arrow{transition:transform .2s;color:var(--muted);font-size:.8rem}
+.faq-item.open .faq-q .arrow{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 20px 18px;font-size:.88rem;color:#374151;line-height:1.75;border-top:1px solid var(--border)}
+.faq-a p{margin-bottom:8px}
+.faq-a ul{padding-left:18px}
+.faq-a ul li{margin-bottom:4px}
+.faq-a code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.82rem}
+.faq-item.open .faq-a{display:block}
+.algo-box{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #dbeafe;border-radius:12px;padding:24px;margin:20px 0}
+.algo-box h3{font-size:.95rem;font-weight:700;margin-bottom:10px;color:#1e40af}
+.algo-box ol{padding-left:18px;font-size:.88rem;color:#374151}
+.algo-box ol li{margin-bottom:6px}
+.cta-box{background:linear-gradient(135deg,#1e3a8a,#312e81);color:#fff;border-radius:var(--radius);padding:32px;text-align:center;margin-top:40px}
+.cta-box h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+.cta-box p{opacity:.8;font-size:.88rem;margin-bottom:20px}
+.btn{display:inline-block;padding:11px 24px;border-radius:9px;font-weight:700;text-decoration:none;font-size:.9rem}
+.btn-white{background:#fff;color:#1e3a8a}
+footer{background:var(--dark);color:#64748b;text-align:center;padding:24px;font-size:.82rem}
+footer a{color:#94a3b8;text-decoration:none}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">🏫 <span>ЖадвалSoft</span></a>
+    <div class="nav-links">
+      <a href="index.html">Главная</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Контакты</a>
+      <a href="app.html" class="cta">🚀 Приложение</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>❓ FAQ</h1>
+  <p>Ответы на частые вопросы об использовании ЖадвалSoft</p>
+</div>
+
+<div class="content">
+
+  <div class="section-title">🚀 Начало работы</div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Нужна ли регистрация? <span class="arrow">▼</span></div>
+    <div class="faq-a"><p>Нет. Приложение работает полностью без регистрации. Просто откройте и начните. Все данные сохраняются в вашем браузере автоматически.</p></div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Это платно? <span class="arrow">▼</span></div>
+    <div class="faq-a"><p>Нет, полностью бесплатно. Без рекламы, без скрытых платежей.</p></div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Куда сохраняются мои данные? <span class="arrow">▼</span></div>
+    <div class="faq-a"><p>Только в <code>localStorage</code> вашего браузера. Никакие данные не отправляются на сервер — у нас его просто нет. Если очистить данные браузера или нажать 🗑️ в шапке — данные сотрутся.</p></div>
+  </div>
+
+  <div class="section-title">📋 Работа с расписанием</div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Сколько классов можно добавить? <span class="arrow">▼</span></div>
+    <div class="faq-a"><p>До 30+ классов одновременно. Поддерживаются классы с 1 по 11 с любыми параллелями (А, Б, В и т.д.).</p></div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Что делать если у учителя нет предмета на шаге 3? <span class="arrow">▼</span></div>
+    <div class="faq-a"><p>Нажмите кнопку <strong>«Синхронизировать учителей»</strong> — система соберёт всех учителей из предметов автоматически. Или добавьте учителя вручную кнопкой «+ Добавить вручную».</p></div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Можно ли исправить расписание после генерации? <span class="arrow">▼</span></div>
+    <div class="faq-a">
+      <p>Да, три способа:</p>
+      <ul>
+        <li>Кнопки ↑↓ при наведении на урок — переместить внутри дня</li>
+        <li>Кнопка «🔄 Переместить» — режим обмена между любыми ячейками и днями</li>
+        <li>Кнопка «👩‍🏫 Назначить учителей» — добавить учителя к уроку без учителя</li>
+      </ul>
+    </div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Как настроить время уроков и перемен под мою школу? <span class="arrow">▼</span></div>
+    <div class="faq-a"><p>На шаге 4 «Настройки» вы можете задать для каждого урока свою длину (минут) и длину перемены после него. Например: 3-й урок 45 мин → перемена 10 мин, 4-й → перемена 30 мин. Поддерживается несколько потоков (1-я и 2-я смена).</p></div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Почему расписание учителя не обновляется после изменений? <span class="arrow">▼</span></div>
+    <div class="faq-a"><p>Расписание учителей перестраивается автоматически при каждом изменении. Если видите несоответствие — переключитесь на вкладку «Для учеников» и обратно.</p></div>
+  </div>
+
+  <div class="section-title" id="algo">⚙️ Алгоритм</div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Как работает алгоритм генерации? <span class="arrow">▼</span></div>
+    <div class="faq-a">
+      <div class="algo-box">
+        <h3>Жадный алгоритм с эвристикой «наименее гибкий первым»</h3>
+        <ol>
+          <li>Собираем все уроки в список задач</li>
+          <li>Сортируем: сначала уроки учителей с меньшим числом рабочих дней</li>
+          <li>Для каждого урока выбираем наименее загруженный день</li>
+          <li>Проверяем ограничения: учитель свободен? класс свободен? не более 2 одинаковых предметов? не 3 подряд одного типа?</li>
+          <li>Если слот подходит — размещаем. Иначе пробуем следующий</li>
+          <li>Если урок не удалось разместить — выводим предупреждение</li>
+        </ol>
+      </div>
+      <p>Это задача CSP (Constraint Satisfaction Problem), NP-полная в общем виде. Жадный алгоритм решает её за миллисекунды для типичной школы.</p>
+    </div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Какие ограничения соблюдает алгоритм? <span class="arrow">▼</span></div>
+    <div class="faq-a">
+      <ul>
+        <li>Учитель не ведёт уроки в нерабочие дни</li>
+        <li>Учитель не ведёт два урока одновременно</li>
+        <li>Не более 7 уроков в день для класса</li>
+        <li>Не более 2 одинаковых предметов в один день</li>
+        <li>Не более 2 точных или гуманитарных предметов подряд</li>
+        <li>Равномерное распределение нагрузки по дням</li>
+      </ul>
+    </div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Почему появляются предупреждения при генерации? <span class="arrow">▼</span></div>
+    <div class="faq-a"><p>Предупреждение появляется если урок не удалось разместить. Чаще всего причины: учитель слишком мало рабочих дней, слишком много часов у одного учителя, или мало слотов. Решение: добавьте учителю больше рабочих дней, или уменьшите нагрузку.</p></div>
+  </div>
+
+  <div class="section-title">📤 Экспорт</div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Как скачать расписание в Excel? <span class="arrow">▼</span></div>
+    <div class="faq-a"><p>После генерации нажмите кнопку <strong>«📊 Excel»</strong>. Скачается файл <code>schedule.xlsx</code> с двумя листами: «Для учеников» и «Для учителей».</p></div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggle(this)">Как распечатать или сохранить в PDF? <span class="arrow">▼</span></div>
+    <div class="faq-a"><p>Нажмите <strong>«📄 PDF»</strong> — откроется диалог печати браузера. Выберите «Сохранить как PDF» вместо принтера. Элементы управления автоматически скрываются при печати.</p></div>
+  </div>
+
+  <div class="cta-box">
+    <h3>Остались вопросы?</h3>
+    <p>Напишите нам — ответим в течение дня</p>
+    <a href="contact.html" class="btn btn-white">📬 Написать нам</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 ЖадвалSoft · <a href="index.html">Главная</a> · <a href="privacy.html">Privacy Policy</a></p>
+</footer>
+
+<script>
+function toggle(el){
+  const item=el.closest('.faq-item');
+  item.classList.toggle('open');
+}
+// Open if hash matches
+if(window.location.hash==='#algo'){
+  document.querySelectorAll('.faq-item').forEach(i=>{
+    if(i.querySelector('.faq-q').textContent.includes('алгоритм')) i.classList.add('open');
+  });
+}
+</script>
+</body>
+</html>
